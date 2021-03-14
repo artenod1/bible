@@ -1,0 +1,63 @@
+body {
+	/*background-image: url("media/wood-tables-hard-wood.jpeg");*/
+	background-image: url("media/wood_bg_2.webp");
+	margin: auto;
+}
+
+small {
+	font-size: 70%;
+	font-family: serif;
+	color: grey;
+}
+
+h1 {
+	font-size: 3em;
+	font-family: cursive;
+}
+
+select {
+	font-size: 20px;
+}
+
+#heading {
+	width: 80%;
+	margin: auto;
+}
+
+#title {
+	width: 25%;
+	margin: auto;
+	padding: auto;
+	color: white;
+}
+
+#bookSelection{
+	width: 35%;
+	margin: auto;
+}
+
+#content {
+	width: 80%;
+	margin-top: 25px;
+	margin-left: 100px;
+	margin-right: 60px;
+	background-color: rgba(250, 247, 232, .9);
+	border-radius: 40px;
+}
+
+#verses {
+	width: 75%;
+	margin: auto;
+	padding-top: 40px;
+	font-size: 1.4em;
+	line-height: 1.8;
+	font-family: fantasy;
+
+}
+
+
+#pageNavigation {
+	width: 50%;
+	margin: auto;
+	padding-top: 10px;
+}
