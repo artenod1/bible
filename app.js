@@ -11,7 +11,7 @@ const printText = async (verses) => {
 	const content = document.querySelector('#content')
 	content.innerText = ""
 	for(let verse of verses){
-		const v = document.createElement('span')
+		const v = document.createElement('small')
 		const text = document.createElement('span')
 		v.innerText = verse.verse
 		text.innerText = verse.text
