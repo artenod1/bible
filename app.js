@@ -27,6 +27,18 @@ const printText = async (verses) => {
 
 }
 
+const otBooks = ['Genesis', 'Exodus', 'Leviticus', 'Numbers', 'Deuteronomy', 'Joshua', 'Judges', 'Ruth',
+'1Samuel', '2Samuel', '1kings', '2kings', '1chronicles', '2chronicles', 'Ezra', 'Nehemiah', 'Esther',
+'Job', 'Psalms', 'Proverbs', 'Ecclesiastes', 'sng', 'Isaiah', 'Jeremiah', 'Lamentations', 'Ezekiel',
+'Daniel', 'Hosea', 'Joel', 'Amos', 'Obadiah', 'Jonah', 'Micah', 'Nahum', 'Habakkuk', 'Zephaniah', 'Haggai',
+'Zechariah', 'Malachi']
+
+const ntBooks = ['Matthew', 'Mark', 'Luke', 'John', 'Acts', 'Romans', '1Corinthians', '2Corinthians',
+'Galatians', 'Ephesians', 'Philippians', 'Colossians', '1Thessalonians', '2Thessalonians',
+'1Timothy', '2Timothy', 'Titus', 'Philemon', 'Hebrews', 'James', '1Peter', '2Peter', '1John',
+'2John', '3John', 'Jude', 'Revelation']
+
+const allBooks = otBooks.concat(ntBooks)
 
 const numChapters = {
 	'Genesis': 50,
@@ -101,12 +113,15 @@ const numChapters = {
 
 const book = document.querySelector("#book")
 const chapter = document.querySelector('#chapter')
+const nextChapter = document.querySelector('#nextChapter')
+const prevChapter = document.querySelector('#prevChapter')
+let bookIndex = 0
 
 book.addEventListener("change", (e) => {
 	e.preventDefault()
 	chapter.innerHTML = ''
 	const numOfChapters = numChapters[book.value]
-
+	bookIndex = allBooks.indexOf(book.value)
 	for(let i = 1; i<=numOfChapters; i++){
 		const option = document.createElement('option')
 		option.value = i
@@ -122,5 +137,38 @@ chapter.addEventListener("change", (e) => {
 	getBook(book.value, chapter.value);
 })
 
+nextChapter.addEventListener("click", (e) => {
+	e.preventDefault();
+	if(book.value){
+		if(chapter.value < numChapters[book.value]){
+			chapter.value ++
+			getBook(book.value, chapter.value)
+		} else{
+			if(bookIndex<66){
+				bookIndex ++
+				book.value = allBooks[bookIndex]
+				chapter.value = 1
+				getBook(book.value, chapter.value)
+			}
+		}
+	}
+})
+
+prevChapter.addEventListener("click", (e) => {
+	e.preventDefault();
+	if(book.value){
+		if(chapter.value > 1){
+			chapter.value --
+			getBook(book.value, chapter.value)
+		} else{
+			if(bookIndex>0){
+				bookIndex --
+				book.value = allBooks[bookIndex] 
+				getBook(book.value, numChapters[book.value])
+				chapter.value = numChapters[book.value]
+			}
+		}
+	}
+})
 
 
