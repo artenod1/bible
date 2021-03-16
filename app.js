@@ -1,6 +1,19 @@
 const getBook = async (book, chapter) => {
-
-	const url = "https://bible-api.com/" + book + "_" + chapter + "?translation=kjv"
+	const singleChapterBooks = {
+		'Obadiah': 21,
+		'Philemon': 25,
+		'2John': 13,
+		'3John': 14,
+		'Jude': 25 
+	}
+	let url = "https://bible-api.com/" + book + "+"
+	if(book in singleChapterBooks){
+		url += "1:1-" + singleChapterBooks[book] + "?translation=kjv"; 
+	} 
+	else {
+		url += chapter + "?translation=kjv";	
+	}
+	
 	const req = await fetch(url)
 	const data = await req.json()
 	printText(data.verses)
@@ -27,6 +40,18 @@ const printText = async (verses) => {
 
 }
 
+const populateChapters = () => {
+	chapter.innerHTML = ''
+	const numOfChapters = numChapters[book.value]
+	bookIndex = allBooks.indexOf(book.value)
+	for(let i = 1; i<=numOfChapters; i++){
+		const option = document.createElement('option')
+		option.value = i
+		option.innerText = i
+		chapter.append(option)
+	}
+}
+
 const otBooks = ['Genesis', 'Exodus', 'Leviticus', 'Numbers', 'Deuteronomy', 'Joshua', 'Judges', 'Ruth',
 '1Samuel', '2Samuel', '1kings', '2kings', '1chronicles', '2chronicles', 'Ezra', 'Nehemiah', 'Esther',
 'Job', 'Psalms', 'Proverbs', 'Ecclesiastes', 'sng', 'Isaiah', 'Jeremiah', 'Lamentations', 'Ezekiel',
@@ -39,6 +64,7 @@ const ntBooks = ['Matthew', 'Mark', 'Luke', 'John', 'Acts', 'Romans', '1Corinthi
 '2John', '3John', 'Jude', 'Revelation']
 
 const allBooks = otBooks.concat(ntBooks)
+let bookIndex = 0
 
 const numChapters = {
 	'Genesis': 50,
@@ -115,27 +141,24 @@ const book = document.querySelector("#book")
 const chapter = document.querySelector('#chapter')
 const nextChapter = document.querySelector('#nextChapter')
 const prevChapter = document.querySelector('#prevChapter')
-let bookIndex = 0
+const nextBook = document.querySelector('#nextBook')
+const prevBook = document.querySelector('#prevBook')
+
+
 
 book.addEventListener("change", (e) => {
 	e.preventDefault()
-	chapter.innerHTML = ''
-	const numOfChapters = numChapters[book.value]
-	bookIndex = allBooks.indexOf(book.value)
-	for(let i = 1; i<=numOfChapters; i++){
-		const option = document.createElement('option')
-		option.value = i
-		option.innerText = i
-		chapter.append(option)
-	}
+	populateChapters()
 	getBook(book.value, 1)
 
 })
+
 
 chapter.addEventListener("change", (e) => {
 	e.preventDefault();
 	getBook(book.value, chapter.value);
 })
+
 
 nextChapter.addEventListener("click", (e) => {
 	e.preventDefault();
@@ -147,27 +170,55 @@ nextChapter.addEventListener("click", (e) => {
 			if(bookIndex<66){
 				bookIndex ++
 				book.value = allBooks[bookIndex]
+				populateChapters()
 				chapter.value = 1
-				getBook(book.value, chapter.value)
+				getBook(book.value, 1)
 			}
 		}
 	}
 })
 
+nextBook.addEventListener("click", (e) => {
+	e.preventDefault();
+	if(bookIndex<66){
+		bookIndex ++
+		book.value = allBooks[bookIndex]
+		populateChapters()
+		chapter.value = 1
+		getBook(book.value, 1)
+	}
+})
+
+
 prevChapter.addEventListener("click", (e) => {
 	e.preventDefault();
 	if(book.value){
 		if(chapter.value > 1){
-			chapter.value --
+			chapter.value -= 1
 			getBook(book.value, chapter.value)
 		} else{
 			if(bookIndex>0){
-				bookIndex --
+				bookIndex -= 1
 				book.value = allBooks[bookIndex] 
-				getBook(book.value, numChapters[book.value])
+				populateChapters()
 				chapter.value = numChapters[book.value]
+				getBook(book.value, chapter.value)
+	
 			}
 		}
+	}
+})
+
+prevBook.addEventListener("click", (e) => {
+	e.preventDefault();
+	if(bookIndex>0 && chapter.value==1){
+		bookIndex -= 1
+		book.value = allBooks[bookIndex] 
+		populateChapters()
+		getBook(book.value, 1)
+	} else {
+		chapter.value = 1
+		getBook(book.value, 1)
 	}
 })
 

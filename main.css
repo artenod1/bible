@@ -27,19 +27,18 @@ select {
 #title {
 	width: 25%;
 	margin: auto;
-	padding: auto;
 	color: white;
 }
 
 #bookSelection{
 	width: 35%;
-	margin: auto;
+	margin-left: 33%;
 }
 
 #content {
 	width: 80%;
 	margin-top: 25px;
-	margin-left: 100px;
+	margin-left: 130px;
 	margin-right: 60px;
 	background-color: rgba(250, 247, 232, .9);
 	border-radius: 40px;
