@@ -20,6 +20,7 @@ const getBook = async (book, chapter) => {
 }
 
 
+
 const printText = async (verses) => {
 	const content = document.querySelector('#content')
 	content.innerHTML = ""
@@ -139,10 +140,10 @@ const numChapters = {
 
 const book = document.querySelector("#book")
 const chapter = document.querySelector('#chapter')
-const nextChapter = document.querySelector('#nextChapter')
-const prevChapter = document.querySelector('#prevChapter')
-const nextBook = document.querySelector('#nextBook')
-const prevBook = document.querySelector('#prevBook')
+const nextChapters = document.querySelectorAll('.nextChapter')
+const prevChapters = document.querySelectorAll('.prevChapter')
+const nextBooks = document.querySelectorAll('.nextBook')
+const prevBooks = document.querySelectorAll('.prevBook')
 
 
 
@@ -160,66 +161,76 @@ chapter.addEventListener("change", (e) => {
 })
 
 
-nextChapter.addEventListener("click", (e) => {
-	e.preventDefault();
-	if(book.value){
-		if(chapter.value < numChapters[book.value]){
-			chapter.value ++
-			getBook(book.value, chapter.value)
-		} else{
-			if(bookIndex<66){
-				bookIndex ++
-				book.value = allBooks[bookIndex]
-				populateChapters()
-				chapter.value = 1
-				getBook(book.value, 1)
-			}
-		}
-	}
-})
-
-nextBook.addEventListener("click", (e) => {
-	e.preventDefault();
-	if(bookIndex<66){
-		bookIndex ++
-		book.value = allBooks[bookIndex]
-		populateChapters()
-		chapter.value = 1
-		getBook(book.value, 1)
-	}
-})
-
-
-prevChapter.addEventListener("click", (e) => {
-	e.preventDefault();
-	if(book.value){
-		if(chapter.value > 1){
-			chapter.value -= 1
-			getBook(book.value, chapter.value)
-		} else{
-			if(bookIndex>0){
-				bookIndex -= 1
-				book.value = allBooks[bookIndex] 
-				populateChapters()
-				chapter.value = numChapters[book.value]
+for(let nextChapter of nextChapters){
+	nextChapter.addEventListener("click", (e) => {
+		e.preventDefault();
+		if(book.value){
+			if(chapter.value < numChapters[book.value]){
+				chapter.value ++
 				getBook(book.value, chapter.value)
-	
+			} else{
+				if(bookIndex<66){
+					bookIndex ++
+					book.value = allBooks[bookIndex]
+					populateChapters()
+					chapter.value = 1
+					getBook(book.value, 1)
+				}
 			}
 		}
-	}
-})
+	})
+}
 
-prevBook.addEventListener("click", (e) => {
-	e.preventDefault();
-	if(bookIndex>0 && chapter.value==1){
-		bookIndex -= 1
-		book.value = allBooks[bookIndex] 
-		populateChapters()
-		getBook(book.value, 1)
-	} else {
-		chapter.value = 1
-		getBook(book.value, 1)
-	}
-})
+for(let nextBook of nextBooks){
+	nextBook.addEventListener("click", (e) => {
+		e.preventDefault();
+		if(bookIndex<66){
+			bookIndex ++
+			book.value = allBooks[bookIndex]
+			populateChapters()
+			chapter.value = 1
+			getBook(book.value, 1)
+		}
+	})
+}
+
+
+for(let prevChapter of prevChapters){
+	prevChapter.addEventListener("click", (e) => {
+		e.preventDefault();
+		if(book.value){
+			if(chapter.value > 1){
+				chapter.value -= 1
+				getBook(book.value, chapter.value)
+			} else{
+				if(bookIndex>0){
+					bookIndex -= 1
+					book.value = allBooks[bookIndex] 
+					populateChapters()
+					chapter.value = numChapters[book.value]
+					getBook(book.value, chapter.value)
+		
+				}
+			}
+		}
+	})
+}
+
+
+for(let prevBook of prevBooks){
+	prevBook.addEventListener("click", (e) => {
+		e.preventDefault();
+		if(bookIndex>0 && chapter.value==1){
+			bookIndex -= 1
+			book.value = allBooks[bookIndex] 
+			populateChapters()
+			getBook(book.value, 1)
+		} else {
+			chapter.value = 1
+			getBook(book.value, 1)
+		}
+	})	
+}
+
 
 

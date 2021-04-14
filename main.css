@@ -55,8 +55,24 @@ select {
 }
 
 
-#pageNavigation {
+#pageNavigationUpper {
 	width: 50%;
 	margin: auto;
 	padding-top: 10px;
 }
+
+#footer{
+	bottom: 0;
+	width: 100%;
+}
+
+#pageNavigationLower {
+	width: 50%;
+	margin: auto;
+	padding-top: 10px;
+	display: none;
+}
+
+
+
+
